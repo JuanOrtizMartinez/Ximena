@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi novia?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            color: #ff4d4d;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        #yes {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        #no {
+            background-color: #ccc;
+            color: black;
+            position: absolute;
+        }
+        .hidden {
+            display: none;
+        }
+        @keyframes hearts {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            animation: hearts 1s linear infinite;
+        }
+        .bouquet {
+            position: absolute;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            animation: rise 2s ease-out forwards;
+        }
+        @keyframes rise {
+            0% { bottom: -200px; }
+            100% { bottom: 20px; }
+        }
+
+        .big-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: red;
+            animation: heartbeat 1.5s ease-in-out infinite, bounce 1s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1) translateY(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1) translateY(-10px); }
+        }
+
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Ximena, Quieres ser mi novia? 💖</h1>
+        <div class="buttons">
+            <button id="yes">Sí</button>
+            <button id="no">No</button>
+        </div>
+        <h2 id="message" class="hidden">¡Eres el amor de mi vida! 💕</h2>
+    </div>
+    <div id="fireworks" class="fireworks hidden"></div>
+
+    <script>
+        const noButton = document.getElementById("no");
+        const yesButton = document.getElementById("yes");
+        const message = document.getElementById("message");
+        const buttonsContainer = document.querySelector(".buttons");
+        const fireworksContainer = document.getElementById("fireworks");
+
+        // Crear corazones pequeños desde el principio
+        const smallHeartsInterval = setInterval(createSmallHearts, 500); // Corazones pequeños cada medio segundo
+
+        // Mover el botón "No" cuando pasa el mouse por encima
+        noButton.addEventListener("mouseover", () => {
+            const x = Math.random() * (window.innerWidth - noButton.clientWidth);
+            const y = Math.random() * (window.innerHeight - noButton.clientHeight);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        });
+
+        // Mostrar animaciones cuando se hace clic en el botón "Sí"
+        yesButton.addEventListener("click", () => {
+            clearInterval(smallHeartsInterval); // Detener la creación de los corazones pequeños
+            message.classList.remove("hidden");
+            buttonsContainer.classList.add("hidden");
+            createHearts();
+            createBouquet();
+            createBigHeart();
+            startFireworks();
+        });
+
+        // Función para crear los corazones pequeños
+        function createSmallHearts() {
+            let heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);  // Los corazones desaparecen después de 1 segundo
+        }
+
+        // Función para crear los corazones grandes
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
+        
+        // Crear el ramo de flores
+        function createBouquet() {
+            let bouquet = document.createElement("div");
+            bouquet.classList.add("bouquet");
+            bouquet.innerHTML = "💐";
+            document.body.appendChild(bouquet);
+        }
+        
+        // Crear el corazón grande
+        function createBigHeart() {
+            let bigHeart = document.createElement("div");
+            bigHeart.classList.add("big-heart");
+            bigHeart.innerHTML = "❤️ X + J ❤️";
+            document.body.appendChild(bigHeart);
+        }
+        
+        // Iniciar los fuegos artificiales
+        function startFireworks() {
+            fireworksContainer.classList.remove("hidden");
+            for (let i = 0; i < 20; i++) {  /* Aumentando la cantidad de fuegos artificiales */
+                let firework = document.createElement("div");
+                firework.innerHTML = "🎆";
+                firework.style.position = "absolute";
+                firework.style.left = Math.random() * window.innerWidth + "px";
+                firework.style.top = Math.random() * window.innerHeight + "px";
+                firework.style.fontSize = "50px";
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>
